@@ -11,16 +11,15 @@
 ```tsx
 import * as React from 'react';
 const initialState = {}
-interface IProps extends React.HTMLAttributes<HTMLElement> {}
+interface IProps extends React.HTMLAttributes<HTMLDivElement> {}
 /*your import*/
-
 type State = typeof initialState
 class ${NAME} extends React.Component<IProps, State> {
 	public state: State = initialState
 	public render() {
 		return (
-			<div className="Demo">
-				{num}
+			<div className="${NAME}">
+				${NAME}
 			</div>
 		);
 	}
