@@ -1,6 +1,7 @@
 import AdminAPI from "@api/AdminAPI";
 import * as React from 'react';
-
+import StyledComponentDemo from "./component/StyledComponentDemo/StyledComponentDemo";
+import GlobalCSS from './global-styled'
 
 class App extends React.Component {
     public async componentWillMount() {
@@ -11,10 +12,10 @@ class App extends React.Component {
     public render() {
         return (
             <div className="App">
-                App
+                <StyledComponentDemo/>
+                <GlobalCSS/>
             </div>
         );
     }
 }
-
 export default App;
