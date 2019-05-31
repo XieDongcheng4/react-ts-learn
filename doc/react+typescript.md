@@ -12,7 +12,6 @@
 import * as React from 'react';
 const initialState = {}
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {}
-/*your import*/
 type State = typeof initialState
 class ${NAME} extends React.Component<IProps, State> {
 	public state: State = initialState
