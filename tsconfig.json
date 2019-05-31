@@ -24,7 +24,7 @@
     "paths": {
       "@api/*": ["./src/api/*"],
       "@model/*": ["./src/model/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@util/*": ["./src/util/*"]
     }
   },
   "exclude": [
