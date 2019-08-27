@@ -1,11 +1,11 @@
-import AdminAPI from "@api/AdminAPI";
+import AdminApi from "@api/admin-api";
 import * as React from 'react';
 import StyledComponentDemo from "./component/StyledComponentDemo/StyledComponentDemo";
 import GlobalCSS from './global-styled'
 
 class App extends React.Component {
-    public async componentWillMount() {
-        const iAdminModel = await AdminAPI.getAdmin();
+     async componentWillMount() {
+        const iAdminModel = await AdminApi.getAdmin();
         console.log(iAdminModel);
     }
 

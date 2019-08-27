@@ -82,7 +82,7 @@ service.interceptors.response.use(res => {
 export default service
 ```
 
-**Axios.ts**
+**axios.ts**
 
 ```tsx
 import * as qs from 'qs'
@@ -143,7 +143,7 @@ export default class Axios<T> {
 
 根据这个数据定义接口
 
-**model/AdminModel.ts**
+**model/i-admin-model.ts**
 
 ```ts
 export default interface IAdminModel {
@@ -154,16 +154,18 @@ export default interface IAdminModel {
 
 定义一个api
 
-**api/AdminAPI.ts**
+**api/admin-api.ts**
 
 ```ts
-import Axios from "../utils/axios/Axios";
-export default class Admin {
-  public getAdmin = () => new Axios({url: '/api/Admin.json'})
+import IAdminModel from "../model/i-admin-model";
+import Axios from "../util/axios/axios";
+
+export default class AdminApi {
+    public static getAdmin = () => new Axios<IAdminModel>({url: '/api/AdminApi.json'}).ajax()
 }
 ```
 
-tsx中，控制台输入被禁用了
+tslink中默认将控制台输出禁用了，无法使用 `console.log();`，这里需要配置一下，代码如下：
 
 ```json
  "rules": {
@@ -171,29 +173,33 @@ tsx中，控制台输入被禁用了
   }
 ```
 
-**App.tsx**
+**Admin.tsx**
 
 ```tsx
 import * as React from 'react';
-import AdminAPI from "./api/AdminAPI";
-class App extends React.Component {
-  public async componentWillMount() {
-    const iAdminModel = await AdminAPI.getAdmin();
-    console.log(iAdminModel);
-  }
-  
-  public render() {
-    return (
-      <div className="App">
-        App
-      </div>
-    );
-  }
+import AdminApi from "../api/admin-api";
+class Admin extends React.Component {
+    public async componentWillMount() {
+        const iAdminModel = await AdminApi.getAdmin();
+        console.log(iAdminModel);
+    }
+
+    public render() {
+        return (
+            <div className="Admin">
+                Admin
+            </div>
+        );
+    }
 }
-export default App;
+export default Admin;
 ```
 
 # 路径优化
+
+前面的代码，导入工具包、数据模型等等，随着页面的复杂性，会变成`import xx from '../../../..'`，这里教读者一个办法。
+
+
 
 安装
 
@@ -233,20 +239,34 @@ module.exports = function override(config, env) {
 **tslint.json**
 
 ```json
-"no-implicit-dependencies": ["optional", ["src"]]
+ "rules": {
+    "interface-over-type-literal": false,
+    "no-console": false,
++   "no-implicit-dependencies": ["optional", ["src"]]
+  }
+
 ```
 
 **tsconfig.json**
 
 ```json
 {
- "paths": {
+  "compilerOptions": {
+    "paths": {
       "@api/*": ["./src/api/*"],
       "@model/*": ["./src/model/*"],
       "@util/*": ["./src/util/*"]
-  }  
-},
-"exclude":[...]
+    }
+  }
+}
+```
+
+这样就完成了，以后你在需要使用`import`时，就这样写：
+
+```js
+import AdminApi from "@api/admin-api";
+import IAdminModel from "@model/i-admin-model";
+import Axios from "@util/axios/axios";
 ```
 
 # 使用Antd UI
@@ -300,7 +320,7 @@ module.exports = function override(config, env) {
 **App.tsx**
 
 ```tsx
-import AdminAPI from "@api/AdminAPI";
+import AdminAPI from "@api/admin-api";
 import {Button} from "antd";
 import * as React from 'react';
 class App extends React.Component {
@@ -427,15 +447,17 @@ export default createGlobalStyle`
 **App.tsx**
 
 ```tsx
-import AdminAPI from "@api/AdminAPI";
+import AdminApi from "@api/admin-api";
 import * as React from 'react';
 import StyledComponentDemo from "./component/StyledComponentDemo/StyledComponentDemo";
 import GlobalCSS from './global-styled'
+
 class App extends React.Component {
     public async componentWillMount() {
-        const iAdminModel = await AdminAPI.getAdmin();
+        const iAdminModel = await AdminApi.getAdmin();
         console.log(iAdminModel);
     }
+
     public render() {
         return (
             <div className="App">
