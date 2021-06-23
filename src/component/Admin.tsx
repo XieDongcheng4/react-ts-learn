@@ -1,5 +1,6 @@
-import * as React from 'react';
 import AdminApi from "@api/admin-api";
+import * as React from 'react';
+
 class Admin extends React.Component {
     public async componentWillMount() {
         const iAdminModel = await AdminApi.getAdmin();
@@ -14,4 +15,5 @@ class Admin extends React.Component {
         );
     }
 }
+
 export default Admin;

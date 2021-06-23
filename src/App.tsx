@@ -4,7 +4,7 @@ import StyledComponentDemo from "./component/StyledComponentDemo/StyledComponent
 import GlobalCSS from './global-styled'
 
 class App extends React.Component {
-     async componentWillMount() {
+     public async componentWillMount() {
         const iAdminModel = await AdminApi.getAdmin();
         console.log(iAdminModel);
     }
